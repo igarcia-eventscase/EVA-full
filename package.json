@@ -1,0 +1,45 @@
+{
+  "name": "eva-platform",
+  "version": "1.0.0",
+  "description": "Plataforma completa de análisis y gestión de chatbot EVA para eventos a través de WhatsApp",
+  "main": "index.js",
+  "scripts": {
+    "setup": "git submodule update --init --recursive && npm run install",
+    "install": "git submodule foreach 'npm install'",
+    "dev:frontend": "cd EVA-analytics-react && npm run dev",
+    "dev:backend": "cd EVA-node && npm run dev",
+    "dev:workers": "cd EVA-workers && npm run dev",
+    "test": "node scripts/test-all.mjs",
+    "test:frontend": "cd EVA-analytics-react && npm test",
+    "test:backend": "cd EVA-node && npm test",
+    "test:workers": "cd EVA-workers && npm test",
+    "test:e2e": "cd EVA-integration-tests && npm test",
+    "build": "git submodule foreach 'npm run build'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/eva-platform.git"
+  },
+  "keywords": [
+    "chatbot",
+    "whatsapp",
+    "analytics",
+    "nodejs",
+    "react",
+    "supabase",
+    "bullmq"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-org/eva-platform/issues"
+  },
+  "homepage": "https://github.com/your-org/eva-platform#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

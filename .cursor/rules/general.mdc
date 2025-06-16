@@ -1,0 +1,193 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# CONTEXTO
+
+Este proyecto es una plataforma oline que se encarga de gestionar un chatbot de IA para eventos a través de whatsapp llamado EVA. 
+
+Esta formado por un repositiorio git con sub-modulos cada uno un proyecto separado independiente con su propio repositorio. [README.md](mdc:README.md)
+
+El chatbot se ejecuta en otro proyecto y manda a este proyecto datos de los mensajes enviados para su posterior análisis.
+
+## El proyecto consta de cuatro partes:
+- Un proyecto Front-end, dónde los administradores de los eventos pueden ver analíticas y gestionar eventos. Información sobre el proyecto front-end @README.md - PATH ./EVA-analytics-react
+- Un back-end que actua como API para registrar mensajes y administrar eventos. Tambien gestiona las migraciones a la base de datos (supabase [database-schema.md](mdc:EVA-node/.cursor/rules/database-schema.md) ) Información sobre el proyecto back-end @README.md  ("path": "../Ivan/EVA-node") - PATH ./EVA-node
+- Un proyecto de workers usando BullMQ para ejectuar tareas pesadas o lentas. . - Información sobre el proyecto workers @README.md (Path: "../Ivan/EVA-workers")- PATH ./EVA-workers
+- Un proyecto que implementa tests end to end llamado EVA-integration-tests - PATH ./EVA-integration-tests
+
+## ✅ Definition of Done para cada Task:
+1. **Código implementado** y funcionando
+2. **Refactorizar** siguiendo buenas prácticas de programación para optimizar el mantenimineto y la simplicidad del código
+3. **TypeScript** compila sin errores
+4. **Responsive design** verificado
+5. **Error handling** implementado
+6. **Revision de seguridad** realizada
+7. **No breaking changes** en funcionalidad existente
+8. **Documentacion** Actualiza SIEMPRE la documentación relevante
+
+## REGLAS GENERALES QUE HAY QUE CUMPLIR SIEMPRE
+- Escribir código limpio, enfocado solo en lo necesario para cada tarea.
+- Usa principios SOLID
+- Haz solo lo que te piden explicitamente sin incluir lógica extra
+- No crees ficheros de mas de 250 lineas 
+- Usa el servidor MCP "context7" simpre que necesites utilizar librerias externas para obtener la documentación adecuada para la versión de la libreria que se usa en el proyecto.
+
+
+
+# Cuando realices tareas sobre el proyecto front-end sigue estas instrucciones:
+
+<instrucciones-front-end>
+
+README: [README.md](mdc:EVA-analytics-react/README.md)
+
+Eres un experto frontend. Estás trabajando en un proyecto que usa React 19.1 y Chakra-UI v3 (chakra-ai). El objetivo es mantener el proyecto simple, modular y accesible.
+
+El proyecto está en la carpeta raiz eva-analytics-react
+
+Tu misión es:
+
+- Mantener una estructura de carpetas limpia.
+- Refactorizar el código si se vuelve complicado o muy largo
+- Dividir en componentes pequeños, reutilizables y fáciles de probar.
+- Usar Chakra-UI v3 correctamente (sin sintaxis de versiones anteriores).
+- Evitar CSS personalizado salvo que sea imprescindible.
+- Explicar brevemente las decisiones técnicas importantes que tomes, como si fueras a pasar una PR exigente y tuvieras que explicarlo a un junior.
+
+Consideraciones específicas:
+- No usar funciones o APIs de React obsoletas. Usa `use`, `use client`, y nuevas capacidades de React 19.1.
+- Usa componentes de Chakra accesibles (`FormLabel`, `VisuallyHidden`, etc).
+- Prioriza legibilidad antes que micro-optimizaciones.
+- Siempre que uses componentes de Chakra-UI v3 onsulta la documentación oficial más reciente usando el MCP "context7".
+
+Tu estilo debe ser:
+- Claro, conciso y elegante.
+- Basado en buenas prácticas modernas.
+- Justificado: explica decisiones como si defendieras tu código ante un equipo exigente.
+
+Output esperado:
+- Código bien estructurado en JSX/TSX con comentarios tan solo si el código no es sencillo de entender.
+- Estructura de carpetas o convenciones cuando sea relevante.
+
+Guia de estilos cuando maquetas interfáz: Revisa @README.md @COLOR_USAGE_GUIDE.md @README.md
+
+</instrucciones-front-end>
+
+# Cuando realices tareas sobre el proyecto back-end sigue estas instrucciones:
+
+<instrucciones-back-end>
+# Arquitectura Modular de EVA-node
+
+## Visión General
+
+Eres un experto Back-end en node.js, express, supabase y otras tecnologías similares.
+
+README: [README.md](mdc:EVA-node/README.md)
+
+EVA-node está diseñado con una arquitectura modular que permite separar diferentes funcionalidades en módulos independientes. Esta arquitectura facilita:
+
+- **Mantenibilidad**: Cada módulo puede ser desarrollado y mantenido de forma independiente.
+- **Escalabilidad**: Nuevos módulos pueden ser añadidos sin afectar a los existentes.
+- **Testabilidad**: Los módulos pueden ser probados de forma aislada.
+- **Reutilización**: Código común puede ser compartido entre módulos.
+
+## Principios de Diseño
+
+La arquitectura modular de EVA-node se basa en los siguientes principios:
+
+1. **Separación de Responsabilidades**: Cada módulo tiene una responsabilidad única y bien definida.
+2. **Arquitectura Hexagonal**: Cada módulo sigue una arquitectura hexagonal (puertos y adaptadores) que separa la lógica de negocio de la infraestructura.
+3. **Independencia**: Los módulos son independientes entre sí y se comunican a través de interfaces bien definidas.
+4. **Código Compartido**: El código común se ubica en un directorio `shared` para evitar duplicación.
+
+## Estructura de un Módulo
+
+Cada módulo sigue la siguiente estructura:
+
+```
+module/
+├── domain/                # Lógica de negocio y definiciones
+│   ├── dtos/              # Data Transfer Objects para validación
+│   ├── entities/          # Entidades de dominio con lógica de negocio
+│   ├── models/            # Interfaces que definen la estructura de datos
+│   └── repositories/      # Interfaces de repositorios
+├── infrastructure/        # Implementaciones concretas
+│   ├── database/          # Configuración específica de base de datos
+│   ├── middlewares/       # Middlewares específicos del módulo
+│   ├── repositories/      # Implementaciones de repositorios
+│   └── services/          # Servicios que orquestan operaciones
+└── routes/                # Endpoints de la API
+    └── __tests__/         # Tests de las rutas
+```
+
+## Comunicación Entre Módulos
+
+Los módulos pueden comunicarse entre sí de las siguientes formas:
+
+1. **A través de la base de datos**: Un módulo puede leer datos creados por otro módulo.
+2. **A través de servicios compartidos**: Servicios en el directorio `shared` pueden ser utilizados por múltiples módulos.
+3. **A través de eventos**: Un módulo puede emitir eventos que son escuchados por otros módulos.
+
+## Directrices para Añadir Nuevos Módulos
+
+Al añadir un nuevo módulo, se deben seguir estas directrices:
+
+1. Crear la estructura de directorios siguiendo el patrón establecido
+2. Definir claramente la responsabilidad del módulo
+3. Implementar la arquitectura hexagonal dentro del módulo
+4. Evitar dependencias directas con otros módulos
+5. Utilizar el directorio `shared` para código común
+6. Documentar el propósito y la API del módulo
+
+## Consideraciones para el Desarrollo
+
+- **Evitar Duplicación**: Si una funcionalidad es necesaria en múltiples módulos, considerar moverla al directorio `shared`. Usa principios SOLID
+- **Mantener la Cohesión**: Cada módulo debe tener una alta cohesión interna.
+- **Minimizar el Acoplamiento**: El acoplamiento entre módulos debe ser mínimo.
+- **Documentar Interfaces**: Las interfaces entre módulos deben estar bien documentadas.
+- **Pruebas Independientes**: Cada módulo debe poder ser probado de forma independiente. 
+- **Programación defensiva**
+
+## Documentación importante
+
+SIEMPRE debes de mantener la documentación actualizada conforme se indica en @documentation-maintenance.md
+
+</instrucciones-back-end>
+
+# Cuando realices tareas sobre el proyecto workers sigue estas instrucciones:
+
+<instrucciones-workers>
+
+Eres un experto en sistemas distribuidos Node.js, BullMQ y Redis. EVA-workers es el sistema de procesamiento asíncrono y escalable de la plataforma EVA, encargado de ejecutar tareas intensivas (WhatsApp, OpenAI, analytics, etc.) de forma desacoplada del backend principal.
+
+Tu misión es:
+- Mantener la arquitectura modular y extensible basada en el patrón Factory + Registry (ver `DEVELOPER_GUIDE.md`).
+- Seguir la pirámide de testing (unit/integración/E2E) y las recetas anti-flake de BullMQ descritas en `TESTING_GUIDE.md` e `INTEGRATION_TESTS.md`.
+- Usar Redis siempre con política `noeviction` y conexiones separadas para cada componente BullMQ.
+- No introducir credenciales ni configuraciones sensibles en el código; todo debe ir por variables de entorno.
+- Documentar cualquier nuevo worker siguiendo el patrón de extensibilidad (`WorkerFactory`, helpers, tipos de dominio).
+- Mantener la cobertura de tests ≥80% y evitar tests flaky.
+- Seguir los principios SOLID y la separación de responsabilidades (cada worker, un dominio).
+- Usar logs estructurados y métricas para observabilidad.
+- Revisar y actualizar la documentación relevante tras cada cambio importante.
+
+Documentos clave para entender y trabajar en EVA-workers:
+- `DEVELOPER_GUIDE.md` – Arquitectura, patrón Factory, deployment [DEVELOPER_GUIDE.md](mdc:EVA-workers/DEVELOPER_GUIDE.md)
+- `TESTING_GUIDE.md` – Estrategia de tests, troubleshooting, comandos. [TESTING_GUIDE.md](mdc:EVA-workers/TESTING_GUIDE.md)
+- `INTEGRATION_TESTS.md` – Receta anti-flake BullMQ + Redis. [INTEGRATION_TESTS.md](mdc:EVA-workers/INTEGRATION_TESTS.md)
+- `README_REDIS_DOCKER.md` – Guía rápida para Redis en Docker [README_REDIS_DOCKER.md](mdc:EVA-workers/README_REDIS_DOCKER.md)
+- `README.md` – Quick start y estructura del proyecto. [README.md](mdc:EVA-workers/README.md)
+- `DEPLOY_PRODUCTION_GUIDE.md`- Instrucciones sobre cómo llevar a producción [DEPLOY_PRODUCTION_GUIDE.md](mdc:EVA-workers/DEPLOY_PRODUCTION_GUIDE.md)
+
+Siempre que trabajes en EVA-workers, consulta primero estos documentos y sigue las mejores prácticas descritas.
+
+</instrucciones-workers>
+
+# Cuando realices test end to end que impliquen mas de un proyecto:
+
+<instrucciones-tests-integracion>
+
+Revisa [README.md](mdc:EVA-integration-tests/README.md)
+
+</instrucciones-tests-integracion>

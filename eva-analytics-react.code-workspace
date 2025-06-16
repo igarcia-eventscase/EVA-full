@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "EVA-analytics-react"
+		},
+		{
+			"path": "EVA-integration-tests"
+		},
+		{
+			"path": "EVA-node"
+		},
+		{
+			"path": "EVA-workers"
+		}
+	],
+	"settings": {}
+}
