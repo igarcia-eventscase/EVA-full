@@ -34,7 +34,8 @@ El chatbot se ejecuta en otro proyecto y manda a este proyecto datos de los mens
 - No crees ficheros de mas de 250 lineas 
 - Usa el servidor MCP "context7" simpre que necesites utilizar librerias externas para obtener la documentación adecuada para la versión de la libreria que se usa en el proyecto.
 
-
+# NUNCA
+Hagas mas de lo que te manden ni des por hecho tareas extra no definidas.
 
 # Cuando realices tareas sobre el proyecto front-end sigue estas instrucciones:
 
